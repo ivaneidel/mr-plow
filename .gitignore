@@ -1,0 +1,4 @@
+/bin/
+/dist/
+mr-plow-plan*.sh
+.DS_Store
