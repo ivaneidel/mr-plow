@@ -78,6 +78,10 @@ mr-plow is provided **"as is", without warranty of any kind**, express or implie
 
 You are solely responsible for what you choose to remove. Always read the dry run before applying, start with `--dry-run`, and keep backups of anything you care about.
 
+## License
+
+[MIT](LICENSE). The license's warranty disclaimer applies in addition to the one above.
+
 ## Docs
 
 [00 plan](docs/00-PLAN.md) · [01 architecture](docs/01-ARCHITECTURE.md) · [02 scanner perf](docs/02-SCANNER-PERF.md) · [03 safety model](docs/03-SAFETY-MODEL.md) · [04 catalog](docs/04-CATALOG.md) · [STATUS](docs/STATUS.md)

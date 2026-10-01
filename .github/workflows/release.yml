@@ -32,8 +32,8 @@ jobs:
           for t in darwin-universal linux-amd64 linux-arm64; do
             mkdir -p "pkg-$t"
             cp "mr-plow-$t" "pkg-$t/mr-plow"
-            cp ../README.md "pkg-$t/"
-            tar -C "pkg-$t" -czf "mr-plow_${t}.tar.gz" mr-plow README.md
+            cp ../README.md ../LICENSE "pkg-$t/"
+            tar -C "pkg-$t" -czf "mr-plow_${t}.tar.gz" mr-plow README.md LICENSE
           done
           shasum -a 256 mr-plow_*.tar.gz > checksums.txt
           cat checksums.txt
