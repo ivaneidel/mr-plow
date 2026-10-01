@@ -17,6 +17,21 @@ A terminal UI that shows what's eating your disk (caches, containers, 2013 `node
   See [docs/03-SAFETY-MODEL.md](docs/03-SAFETY-MODEL.md).
 - **English / Español.** Colours adapt to light and dark terminals.
 
+## Install
+
+Download a binary from [Releases](https://github.com/ivaneidel/mr-plow/releases) (macOS universal, Linux amd64/arm64), or:
+
+```sh
+# macOS (Apple Silicon + Intel)
+curl -fsSL https://github.com/ivaneidel/mr-plow/releases/latest/download/mr-plow_darwin-universal.tar.gz | tar -xz mr-plow
+# Linux (x86_64; use linux-arm64 for ARM)
+curl -fsSL https://github.com/ivaneidel/mr-plow/releases/latest/download/mr-plow_linux-amd64.tar.gz | tar -xz mr-plow
+# or, with Go installed
+go install github.com/ivaneidel/mr-plow/cmd/mr-plow@latest
+```
+
+The macOS binary isn't signed. If a browser download refuses to open, run `xattr -d com.apple.quarantine mr-plow`.
+
 ## Use
 
 ```sh
@@ -44,7 +59,10 @@ mr-plow --lang es
 ```sh
 make build      # bin/mr-plow
 make test       # vet (macOS + Linux), no-network check, unit tests
-make release    # dist/: darwin universal + linux amd64/arm64, all static
+make release    # dist/: darwin universal + linux amd64/arm64
+
+# publishing a release: push a tag, GitHub Actions builds and uploads the binaries
+git tag v0.2.0 && git push origin v0.2.0
 make fixture && HOME=/tmp/mr-plow-fixture/home bin/mr-plow   # try it on a fake home full of junk
 ```
 

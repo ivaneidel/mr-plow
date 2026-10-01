@@ -1,0 +1,67 @@
+# Push a tag like v0.1.0 to build and publish a GitHub Release.
+name: release
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    # macOS runner: has lipo for the universal binary; Linux builds cross-compile (CGO off)
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+
+      - name: Test
+        run: make test
+
+      - name: Build
+        run: make release VERSION=${GITHUB_REF_NAME}
+
+      - name: Package
+        run: |
+          set -eu
+          cd dist
+          for t in darwin-universal linux-amd64 linux-arm64; do
+            mkdir -p "pkg-$t"
+            cp "mr-plow-$t" "pkg-$t/mr-plow"
+            cp ../README.md "pkg-$t/"
+            tar -C "pkg-$t" -czf "mr-plow_${t}.tar.gz" mr-plow README.md
+          done
+          shasum -a 256 mr-plow_*.tar.gz > checksums.txt
+          cat checksums.txt
+
+      - name: Publish
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -eu
+          cat > notes.md <<'NOTES'
+          ## Install
+
+          ```sh
+          # macOS (Apple Silicon + Intel)
+          curl -fsSL https://github.com/${{ github.repository }}/releases/download/${{ github.ref_name }}/mr-plow_darwin-universal.tar.gz | tar -xz mr-plow
+          # Linux x86_64 (use linux-arm64 for ARM)
+          curl -fsSL https://github.com/${{ github.repository }}/releases/download/${{ github.ref_name }}/mr-plow_linux-amd64.tar.gz | tar -xz mr-plow
+
+          ./mr-plow --dry-run      # look around first; nothing can be deleted in this mode
+          ```
+
+          The macOS binary isn't signed. If you downloaded it with a browser, clear the quarantine flag: `xattr -d com.apple.quarantine mr-plow`.
+
+          Verify downloads against `checksums.txt` (`shasum -a 256 -c checksums.txt`).
+
+          ## Not yet tested for real
+
+          sudo/root mode, running on Linux, and the tool cleanup commands (`docker system prune`, `brew cleanup`, …). Start with `--dry-run`.
+          NOTES
+          gh release create "$GITHUB_REF_NAME" dist/*.tar.gz dist/checksums.txt \
+            --title "mr-plow $GITHUB_REF_NAME" --notes-file notes.md --generate-notes
