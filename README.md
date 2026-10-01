@@ -4,6 +4,10 @@
 
 A terminal UI that shows what's eating your disk (caches, containers, 2013 `node_modules`, ten-year-old ISOs, your mom's music) and lets you remove it **after seeing the exact `rm` it will run**.
 
+![mr-plow showing the Suspects tab: disk gauge, space breakdown, and dev artifacts grouped with sizes, ages and safety labels](docs/img/screenshot.png)
+
+> **mr-plow deletes files. Use it at your own risk.** See the [disclaimer](#disclaimer).
+
 - **One static binary**, about 4 MB per architecture, no runtime. macOS (universal) and Linux.
 - **Fast:** parallel walker using macOS `getattrlistbulk(2)`, 3.7× faster than `du` on a full home folder. Known garbage locations are scanned first, and the last scan is shown instantly from cache. See [docs/02-SCANNER-PERF.md](docs/02-SCANNER-PERF.md).
 - **Paranoid:**
@@ -67,6 +71,12 @@ make fixture && HOME=/tmp/mr-plow-fixture/home bin/mr-plow   # try it on a fake 
 ```
 
 Needs Go 1.25+. The module asks for 1.26; Go fetches that toolchain automatically.
+
+## Disclaimer
+
+mr-plow is provided **"as is", without warranty of any kind**, express or implied. It deletes files and runs cleanup commands on your system. The authors, maintainers and contributors **are not responsible for any data loss, damage or other consequences** of using it, including files removed by mistake, misidentified "safe" items, or bugs in the software.
+
+You are solely responsible for what you choose to remove. Always read the dry run before applying, start with `--dry-run`, and keep backups of anything you care about.
 
 ## Docs
 
