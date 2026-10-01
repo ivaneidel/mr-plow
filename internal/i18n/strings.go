@@ -56,7 +56,7 @@ var strs = map[string]Text{
 
 	"sus.empty":      {"Nothing found yet…", "Todavía no encontré nada…"},
 	"sus.items":      {"items", "ítems"},
-	"sus.group_hint": {"space selects every Safe/Regenerable item here · enter folds the group", "espacio elige todo lo Seguro/Regenerable de acá · enter pliega el grupo"},
+	"sus.group_hint": {"space selects every Safe/Regenerable item here (again to unselect) · enter opens the group", "espacio elige todo lo Seguro/Regenerable de acá (otra vez para quitar) · enter abre el grupo"},
 	"sus.locations":  {"locations", "ubicaciones"},
 	"sus.info_only":  {"Info only: mr-plow won't touch this.", "Solo información: mr-plow no lo toca."},
 	"sus.agg_hint":   {"enter lists each folder · space selects them all", "enter lista cada carpeta · espacio las elige todas"},
@@ -122,7 +122,7 @@ var strs = map[string]Text{
 	"help.body": {
 		"1 2 3 / tab     switch tab: Suspects · Explore · Big files\n" +
 			"↑↓ j k          move     pgup/pgdown  page     g/G  top/bottom\n" +
-			"space           select / unselect (on a group: all Safe+Regenerable items)\n" +
+			"space           select / unselect (on a group: all Safe+Regenerable, again to undo)\n" +
 			"enter → l       expand · open folder        ← h backspace  back / fold\n" +
 			"o               reveal in Finder / file manager\n" +
 			"d               dry run of the selection: exact commands, nothing touched\n" +
@@ -131,7 +131,7 @@ var strs = map[string]Text{
 			"q / ctrl+c      quit",
 		"1 2 3 / tab     cambiar pestaña: Sospechosos · Explorar · Archivos grandes\n" +
 			"↑↓ j k          mover    pgup/pgdown  página   g/G  inicio/fin\n" +
-			"espacio         elegir / quitar (en un grupo: todo lo Seguro+Regenerable)\n" +
+			"espacio         elegir / quitar (en un grupo: todo lo Seguro+Regenerable, otra vez deshace)\n" +
 			"enter → l       expandir · abrir carpeta    ← h backspace  volver / plegar\n" +
 			"o               mostrar en Finder / gestor de archivos\n" +
 			"d               simulacro de lo elegido: comandos exactos, nada se toca\n" +

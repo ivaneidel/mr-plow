@@ -593,15 +593,24 @@ func (m *Model) keySuspects(s string) {
 		move(len(rows) - 1)
 	case " ":
 		if r.kind == rowGroup {
-			// select every Safe/Regenerable item in the group
+			// toggle every Safe/Regenerable item in the group; the cursor stays
+			// on the group so a second space undoes the first
+			var easy []*session.Item
+			all := true
 			for _, it := range r.g.Items {
-				if it.Actionable() && (it.Safety == catalog.Safe || it.Safety == catalog.Regenerable) && !m.isSelected(it) {
+				if it.Actionable() && (it.Safety == catalog.Safe || it.Safety == catalog.Regenerable) {
+					easy = append(easy, it)
+					all = all && m.isSelected(it)
+				}
+			}
+			for _, it := range easy {
+				if m.isSelected(it) == all {
 					m.toggle(it)
 				}
 			}
-		} else {
-			m.toggle(r.it)
+			return
 		}
+		m.toggle(r.it)
 		move(c + 1)
 	case "enter", "right", "l":
 		switch {
